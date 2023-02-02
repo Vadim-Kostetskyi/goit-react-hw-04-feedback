@@ -1,0 +1,18 @@
+@import '~@csstools/normalize.css';
+
+.box {
+  text-align: center;
+}
+
+.button {
+  font-size: 20px;
+
+  margin-right: 10px;
+  padding: 5px 10px;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.statistics {
+  font-size: 20px;
+  line-height: 1.5;
+}
