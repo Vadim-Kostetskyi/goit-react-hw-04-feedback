@@ -1,70 +1,73 @@
 import Statistics from './Statistics';
 import FeedbackOptions from './FeedbackOptions';
 import './style.css';
+import { logDOM } from '@testing-library/react';
+const { useState, useEffect } = require('react');
 
-const { Component, default: React } = require('react');
+const Feedback = () => {
+  // state = {
+  //   good: 0,
+  //   neutral: 0,
+  //   bad: 0,
+  // };
 
-class Feedback extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+  const [good, setFilter] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  options = [
+  const options = [
     { id: 2000, label: 'good' },
     { id: 2010, label: 'neutral' },
     { id: 2100, label: 'bad' },
   ];
 
-  plusOne = el => {
-    this.setState(prevState => ({
-      [`${el}`]: prevState[`${el}`] + 1,
-    }));
+  const plusOne = el => {
+    switch (el) {
+      case 'good':
+        setFilter(e => e + 1);
+        break;
+      case 'neutral':
+        setNeutral(e => e + 1);
+        break;
+      case 'bad':
+        setBad(e => e + 1);
+        break;
+      default:
+        break;
+    }
   };
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
+  const countTotalFeedback = () => {
     const total = good + neutral + bad;
     return total;
   };
 
-  countPositiveFeedbackPercentage = () => {
-    const total = this.countTotalFeedback();
-    const { good } = this.state;
+  const countPositiveFeedbackPercentage = () => {
+    const total = countTotalFeedback();
     const procent = Number(total > 0 ? (good * 100) / total : 0);
     return procent;
   };
 
-  render() {
-    const show =
-      this.state.good || this.state.neutral || this.state.bad > 0
-        ? true
-        : false;
-    return (
-      <div className="box">
-        <FeedbackOptions
-          options={this.options}
-          onLeaveFeedback={this.plusOne}
-        ></FeedbackOptions>
-        {show && (
-          <Statistics
-            good={this.state.good}
-            neutral={this.state.neutral}
-            bad={this.state.bad}
-            total={this.countTotalFeedback()}
-            positivePercentage={parseInt(
-              this.countPositiveFeedbackPercentage()
-            )}
-          ></Statistics>
-        )}
-        {!show && <p>No feedback given</p>}
-      </div>
-    );
-  }
-}
-
-// fix
+  const show = good || neutral || bad > 0 ? true : false;
+  return (
+    <div className="box">
+      <FeedbackOptions
+        options={options}
+        onLeaveFeedback={plusOne}
+      ></FeedbackOptions>
+      {show && (
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={countTotalFeedback()}
+          positivePercentage={parseInt(countPositiveFeedbackPercentage())}
+        ></Statistics>
+      )}
+      {!show && <p>No feedback given</p>}
+    </div>
+  );
+};
 
 export const App = () => {
   return <div>{<Feedback />}</div>;
