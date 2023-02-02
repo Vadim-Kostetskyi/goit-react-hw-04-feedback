@@ -5,12 +5,6 @@ import { logDOM } from '@testing-library/react';
 const { useState, useEffect } = require('react');
 
 const Feedback = () => {
-  // state = {
-  //   good: 0,
-  //   neutral: 0,
-  //   bad: 0,
-  // };
-
   const [good, setFilter] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
